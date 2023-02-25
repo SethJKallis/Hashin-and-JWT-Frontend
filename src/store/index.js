@@ -60,10 +60,28 @@ export default createStore({
       const {results, err} = await res.data;
       if(results){
         context.commit('setUsers', results)
-        console.log(results)
       } else {
         context.commit('setMessage', err)
-        // console.log(err)
+      }
+    },
+
+    async fetchUserById(context, id){
+      const res = await axios.get(`${apiLink}/users/${id}`);
+      const {results, err} = await res.data;
+      if(results){
+        context.commit('setUser', results)
+      } else {
+        context.commit('setMessage', err)
+      }
+    },
+
+    async updateUser(context, payload){
+      const res = await axios.put(`http://localhost:3800/user/${payload.userID}`, payload);
+      const {result, err} = await res.data;
+      if(result){
+        context.commit('setUser', result)
+      } else {
+        context.commit('setMessage', err)
       }
     }
 

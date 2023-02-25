@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover table-dark">
             <thead>
             <tr>
                 <th>ID</th>
@@ -10,7 +10,6 @@
                 <th>CellPhone</th>
                 <th>Email</th>
                 <th>Profile</th>
-                <th>Join Date</th>
                 <th>Edit/Delete</th>
             </tr>
             </thead>
@@ -19,9 +18,15 @@
                     <td>{{ user.userID }}</td>
                     <td>{{ user.firstName }}</td>
                     <td>{{ user.lastName }}</td>
-                    <td>{{ user }}</td>
-                    <td>{{ user }}</td>
-                    <td>{{ user }}</td>
+                    <td>{{ user.gender }}</td>
+                    <td>{{ user.cellphoneNumber }}</td>
+                    <td>{{ user.emailAdd }}</td>
+                    <td>{{ user.userProfile }}</td>
+                    <td>
+                        <router-link :to="{name: 'edit', params: {id:user.userID}}" class="btn btn-success">Edit</router-link>
+                       
+                        <button class="btn btn-danger">Delete</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -30,22 +35,23 @@
 
 <script>
 import {useStore} from 'vuex';
-// import {computed} from '@vue/runtime-core';
+import {computed} from '@vue/runtime-core';
 
 export default{
      setup(){
-        // const store = useStore();
-        // const users = computed( async () => await store.dispatch("fetchUsers").then(res=>res))
-        // console.log(users)
-    },
-    async mounted(){
-        const store = useStore();
-        const users = await store.dispatch("fetchUsers").then(res => console.log(res))
-        console.log(users)
+         const store = useStore();
+         
+         store.dispatch("fetchUsers");
+
+        let users = computed(() => store.state.users);
+
+        users = computed(() => store.state.users);
+
         return{
-        users
+            users,
         }
-    }
+     
+    },
     
 }
 </script>
